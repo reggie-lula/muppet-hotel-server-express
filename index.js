@@ -2,7 +2,12 @@ const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const cloud = require('wx-server-sdk');
 const { init: initDB, Counter } = require("./db");
+
+cloud.init({
+  env: cloud.DYNAMIC_CURRENT_ENV,
+})
 
 const logger = morgan("tiny");
 
@@ -46,6 +51,20 @@ app.get("/api/count", async (req, res) => {
 app.get("/api/wx_openid", async (req, res) => {
   if (req.headers["x-wx-source"]) {
     res.send(req.headers["x-wx-openid"]);
+  }
+});
+
+app.get("/api/qrcode/wx_openid", async (req, res) => {
+  try {
+    const result = await cloud.openapi.wxacode.getUnlimited({
+        "page": 'pages/index/index',
+        "scene": 'a=1',
+        "checkPath": true,
+        "envVersion": 'release'
+      })
+    return result
+  } catch (err) {
+    return err
   }
 });
 
