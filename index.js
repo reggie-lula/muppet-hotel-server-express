@@ -5,10 +5,6 @@ const morgan = require("morgan");
 const { init: initDB, Counter } = require("./db");
 const { request } = require("http");
 
-cloud.init({
-  env: cloud.DYNAMIC_CURRENT_ENV,
-})
-
 const logger = morgan("tiny");
 
 const app = express();
