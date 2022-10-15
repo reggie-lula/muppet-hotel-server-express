@@ -2,7 +2,6 @@ const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
-const cloud = require('wx-server-sdk');
 const { init: initDB, Counter } = require("./db");
 const { request } = require("http");
 
