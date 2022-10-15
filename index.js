@@ -4,6 +4,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const cloud = require('wx-server-sdk');
 const { init: initDB, Counter } = require("./db");
+const { request } = require("http");
 
 cloud.init({
   env: cloud.DYNAMIC_CURRENT_ENV,
@@ -55,17 +56,7 @@ app.get("/api/wx_openid", async (req, res) => {
 });
 
 app.get("/api/qrcode/wx_openid", async (req, res) => {
-  try {
-    const result = await cloud.openapi.wxacode.getUnlimited({
-        "page": 'pages/index/index',
-        "scene": 'a=1',
-        "checkPath": true,
-        "envVersion": 'release'
-      })
-    return result
-  } catch (err) {
-    return err
-  }
+  res.send(request("https://api.weixin.qq.com/wxa/getwxacodeunlimit", console.log));
 });
 
 const port = process.env.PORT || 80;
